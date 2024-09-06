@@ -89,7 +89,7 @@ onChangeText={setcalories}>
 </TextInput>
 
 <TouchableHighlight onPress={handleSubmit} style={styles.button}>
-  <Text style={styles.buttonText}>Save</Text>
+  <Text style={styles.buttonText}>Add WorkOut</Text>
 </TouchableHighlight>
   </View>
     </SafeAreaView>
