@@ -5,6 +5,8 @@ import { Picker } from "@react-native-picker/picker";
 import { WorkOutDetails } from './types'
 import React from 'react';
 
+//CODE ATTRIBUTION//
+//(The IIE).2024.MAST5112 MODULE MANUAL.UNPUBLISHED//
 export default function App() {
 
   const[workouts, setWorkOuts] = useState<WorkOutDetails[]>([
