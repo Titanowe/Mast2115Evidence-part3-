@@ -1,206 +1,54 @@
-import { StatusBar } from 'expo-status-bar';
-import {useState} from 'react';
-import { StyleSheet, Text, View, FlatList, SafeAreaView, TextInput, TouchableOpacity, TouchableHighlight, } from 'react-native';
-import { Picker } from "@react-native-picker/picker";
-import { WorkOutDetails } from './types'
-import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { View, Image, StyleSheet } from 'react-native';
+import { RootStackParamList } from './types';
+import { HomeScreen } from './screens/HomeScreen';
+import { ManageWorkouts } from './screens/ManageWorkouts';
+import { FilterScreen } from './screens/FilterScreen';
+import {LogoImg} from './Logo/LogoImg'; // Adjust the path to where your logo image is stored
 
-//CODE ATTRIBUTION//
-//(The IIE).2024.MAST5112 MODULE MANUAL.UNPUBLISHED//
 export default function App() {
+  const Stack = createNativeStackNavigator<RootStackParamList>();
 
-  const[workouts, setWorkOuts] = useState<WorkOutDetails[]>([
-   
-  ]);
-
-  const[WorkoutName, setWorkOutName] = useState<string>('');
-  const[duration, setDuration] = useState<string>('');
-  const[exerciseType, setType] = useState<string>('');
-  const[calories, setcalories] = useState<string>('');
-  const[TotalCalories,setTotalcalories] =useState<number>(0);
-
-  const ExerciseType = ['Cardio', 'Strength', 'Flexibility', 'Balance', 'HIIT','Aerobics'];
-  const handleSubmit =() => {
-    if (WorkoutName && duration && exerciseType && calories) {
-      const newWorkout : WorkOutDetails = {
-        Workout_Name: WorkoutName,
-        duration: parseInt(duration),
-        exercise_Type: exerciseType,
-        calories: parseInt(calories)
-      };
-      setWorkOuts([...workouts, newWorkout]);
-      setTotalcalories(TotalCalories + newWorkout.calories);
-      
-    
-    }
-  }
-  const totalWorkouts = workouts.length;
   return (
-    <SafeAreaView style={styles.itemContainer}>
-   <View>
-    <Text style={styles.heading}> Fitness Tracker</Text>
-   </View>
+    <NavigationContainer>
+      <View style={styles.container}>
+        {/* Logo Display */}
+        <Image source={LogoImg} style={styles.logo} />
+      </View>
 
-   <View style={styles.summaryContainer}>
-    <Text style={styles.summaryHeading} >TODAY'S SUMMARY</Text>
-   </View>
-   <Text style={styles.summaryText}>Total Workouts: {totalWorkouts}</Text>
-   <Text style={styles.summaryText}>Total Calories Burnt: {TotalCalories}</Text>
-   
-   <FlatList
-   style={styles.listStyle}
-   data={workouts}
-   keyExtractor={(item, index) => index.toString()}
-   renderItem={({ item }) => (
-    <View style={styles.container}>
-      <Text style={styles.workName}>Workout Name: {item.Workout_Name}</Text>
-      <Text style={styles.otherDetails}>Duration: {item.duration} min </Text>
-      <Text style={styles.otherDetails}> Workout type:{item.exercise_Type}</Text>
-      <Text style={styles.otherDetails}>Calories burnt:{item.calories}</Text>
-    </View>
-   )}
-  ></FlatList>
-  <View style={styles.userInputView}>
-    <TextInput style={styles.input}
-    placeholder='Work out name'
-    value={WorkoutName}
-    onChangeText={setWorkOutName}>
-    </TextInput>
-
-<TextInput style={styles.input}
-placeholder='Duration (min)'
-value={duration}
-onChangeText={setDuration}>
-</TextInput>
-
-<Picker 
-selectedValue={exerciseType}
-onValueChange={(itemValue) => setType(itemValue)}
-style={styles.input}>
-
-  {ExerciseType.map((exerciseType) => (
-    <Picker.Item label={exerciseType} value={exerciseType} key={exerciseType}/>
-  ))}
-</Picker>
-
-<TextInput
-style={styles.input}
-placeholder='Calories burnt'
-value={calories}
-onChangeText={setcalories}>
-</TextInput>
-
-<TouchableHighlight onPress={handleSubmit} style={styles.button}>
-  <Text style={styles.buttonText}>Add WorkOut</Text>
-</TouchableHighlight>
-  </View>
-    </SafeAreaView>
-   
+      <Stack.Navigator>
+        <Stack.Screen 
+          name="HomeScreen" 
+          component={HomeScreen} 
+          options={{ headerTitle: 'Place Order' }} 
+        />
+        <Stack.Screen 
+          name="ManageWorkoutScreen" 
+          component={ManageWorkouts} 
+          options={{ headerTitle: 'Manage Meals' }} 
+        />
+        <Stack.Screen 
+          name="FilterScreen" 
+          component={FilterScreen} 
+          options={{ headerTitle: 'Filter Dish Type' }} 
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-};
+}
+
+// Styles for layout and the logo
 const styles = StyleSheet.create({
-  headingContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 15,
-    backgroundColor: '#556B2F'
-  },
-  summaryHeading:{
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 15,
-    backgroundColor: '#E07A5F'
-  },
   container: {
     flex: 1,
-    backgroundColor: '#81B29A',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 10,
-    padding:20,
+    justifyContent: 'center',  // Centers the content vertically
+    alignItems: 'center',  // Centers the content horizontally
+    marginTop: 20,  // Optional margin from the top
   },
-  summaryContainer:{
-    flex: 1,
-    backgroundColor: '#E07A5F',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 10,
-    padding:20,
-    
+  logo: {
+    width: 200,  // Adjust width as necessary
+    height: 100,  // Adjust height as necessary
+    resizeMode: 'contain',  // Ensures the logo fits inside the provided space
   },
-
-  listStyle:{
-    maxHeight: 1500,
-  },
-  itemContainer:{
-    flex:2,
-    padding: 25,
-    marginVertical: 8,
-    backgroundColor:'#DDBEA9',
-  },
-  workName:{
-    fontSize:23,
-    fontWeight:"bold",
-  },
-  heading:{
-    fontSize:30,
-    fontWeight:"bold",
-    backgroundColor:'#E07A5F',
-  },
-  otherDetails:{ 
-    fontSize:30,
-    fontWeight:"bold",
-  },
-  separator:{
-    height:20,
-  },
-  headerImage:{
-    width: '40%',
-    height: 200,
-    marginBottom:20,
-  },
-  userInputView: {
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    width: 450,
-    height: 350,
-    marginVertical: 5,
-    backgroundColor: '#3D405B',
-    padding: 10,
-    marginTop: 120,
-    marginBottom: 40,
-  },
-input: {
-  width: '100%',
-  height: 40,
-  backgroundColor: 'white',
-  paddingHorizontal: 10,
-  marginVertical: -15,
-  borderRadius: 5,
-  color: 'black',
-  marginTop: 30,
-  fontSize: 20,
-},
-button: {
-  backgroundColor: '#F2CC8F',
-  paddingVertical: 15,
-  paddingHorizontal: 40,
-  borderRadius: 40,
-  marginVertical: 10,
-  alignItems: 'center',
-  marginTop: 40,
-},
-
-buttonText: {
-  color: 'black',
-  fontSize: 20,
-  fontWeight: 'bold'
-  },
-
-summaryText:{
-  color: 'black',
-  fontSize: 20,
-  fontWeight: 'bold'
-},
-
 });
