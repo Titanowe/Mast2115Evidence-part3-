@@ -91,7 +91,7 @@ export const ManageWorkouts: React.FC<ManageWorkoutProps> = (props) => {
         <View style={[homeStyles.container, { flex: 1 }]}>
             {/* Add Workout Form Section */}
             <ScrollView style={styles.userInputView}>
-                <Text style={homeStyles.heading}>Add New Workout</Text>
+                <Text style={homeStyles.heading}>Add New Meal</Text>
                 
                 <TextInput 
                     style={styles.input}
