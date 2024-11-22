@@ -5,18 +5,12 @@ import { RootStackParamList } from './types';
 import { HomeScreen } from './screens/HomeScreen';
 import { ManageWorkouts } from './screens/ManageWorkouts';
 import { FilterScreen } from './screens/FilterScreen';
-import {LogoImg} from './Logo/LogoImg'; // Adjust the path to where your logo image is stored
 
 export default function App() {
   const Stack = createNativeStackNavigator<RootStackParamList>();
 
   return (
     <NavigationContainer>
-      <View style={styles.container}>
-        {/* Logo Display */}
-        <Image source={LogoImg} style={styles.logo} />
-      </View>
-
       <Stack.Navigator>
         <Stack.Screen 
           name="HomeScreen" 
